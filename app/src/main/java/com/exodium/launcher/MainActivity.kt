@@ -78,11 +78,11 @@ class MainActivity : Activity() {
         statusText = label("○ Ожидание", 14f, MUTED, true)
         statusCard.addView(statusText)
         startBtn = btn("СТАРТ", ACCENT)
-        startBtn.setOnClickListener { onStart() }
+        startBtn.setOnClickListener { startInjector() }
         statusCard.addView(startBtn, lp().apply { topMargin = dp(10) })
 
         val stopBtn = btn("СТОП", RED)
-        stopBtn.setOnClickListener { onStop() }
+        stopBtn.setOnClickListener { stopInjector() }
         statusCard.addView(stopBtn, lp().apply { topMargin = dp(6) })
         root.addView(statusCard, lp().apply { bottomMargin = dp(10) })
 
@@ -112,7 +112,7 @@ class MainActivity : Activity() {
     private fun findPath(): String =
         SEARCH_PATHS.firstOrNull { File(it).isDirectory && File("$it/start.sh").exists() } ?: ""
 
-    private fun onStart() {
+    private fun startInjector() {
         val src = pathText.text.toString().trim()
         if (src.isEmpty() || !File("$src/start.sh").exists()) {
             setStatus("❌ start.sh не найден в: $src", RED); return
@@ -136,7 +136,7 @@ class MainActivity : Activity() {
         }.start()
     }
 
-    private fun onStop() {
+    private fun stopInjector() {
         val src = pathText.text.toString().trim()
         Thread {
             try {
